@@ -38,8 +38,8 @@
             "styles": ["src/styles.less"],
             "scripts": [],
             "sourceMap": {
-              "scripts": true,
-              "hidden": true,
+              "scripts": false,
+              "hidden": false,
               "styles": false,
               "vendor": false
             }
