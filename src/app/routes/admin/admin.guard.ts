@@ -15,20 +15,13 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class AdminGuard implements CanActivate, CanActivateChild, CanLoad {
-  constructor(
-    private authService: AuthService // private notification: NzNotificationService
-  ) {}
+export class AdminGuard implements CanActivate {
+  constructor(private authService: AuthService) {}
 
-  canActivate = (
+  canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): UrlTree | Observable<boolean> => this.authService.getUserInfo();
-
-  canActivateChild = (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean => true;
-
-  canLoad = (route: Route): boolean => true;
+  ): UrlTree | Observable<boolean> {
+    return this.authService.getUserInfo();
+  }
 }

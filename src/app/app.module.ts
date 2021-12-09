@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from '@/app.component';
 
-import { AppRoutingModule, APP_COMPONENTS } from './routes';
+import { AppRoutingModule } from './routes';
 
 import { httpInterceptorProviders } from '@/http-interceptors';
 
@@ -17,7 +17,7 @@ import { httpInterceptorProviders } from '@/http-interceptors';
 
     AppRoutingModule,
   ],
-  declarations: [AppComponent, ...APP_COMPONENTS],
+  declarations: [AppComponent],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })

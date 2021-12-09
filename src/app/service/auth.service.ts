@@ -1,41 +1,51 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router, UrlTree } from '@angular/router';
 
-import { Observable, throwError } from 'rxjs';
-import { catchError, delay, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly storageKey: string = 'token';
-  public token: string | null = null;
-  public userInfo: object | null = null;
   public readonly loginUrl: string = '/login';
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.token = localStorage.getItem(this.storageKey);
+  public isLoading: boolean = false;
+  public userInfo: object | null = null;
+
+  get token() {
+    return localStorage.getItem(this.storageKey);
   }
 
+  constructor(private http: HttpClient, private router: Router) {}
+
   login(data?: object): void {
-    this.http.get<boolean>('/users/evillibraxjj', data).subscribe((e) => {
-      this.token = new Date().getTime().toString();
-      localStorage.setItem(this.storageKey, this.token);
-      this.router.navigate(['/']);
-    });
+    const { router, storageKey, http } = this;
+    this.isLoading = true;
+    http.get<boolean>('/users/evillibraxjj', data).subscribe(
+      () => {
+        localStorage.setItem(storageKey, new Date().getTime().toString());
+        router.navigate(['/']);
+      },
+      () => {
+        this.isLoading = false;
+      }
+    );
   }
 
   getUserInfo(): UrlTree | Observable<boolean> {
-    const { token, router } = this;
-    if (!token) return router.parseUrl(this.loginUrl);
-    return this.http.get<boolean | UrlTree>('/users/evillibraxjj').pipe(
+    const { token, router, loginUrl, http } = this;
+    if (!token) return router.parseUrl(loginUrl);
+    return http.get<boolean | UrlTree>('/users/evillibraxjj').pipe(
       map((e: any) => !!(this.userInfo = e)),
-      catchError(() => this.router.navigate([this.loginUrl]))
+      catchError(() => router.navigate([loginUrl]))
     );
   }
   logout(): void {
-    this.token = null;
+    this.isLoading = false;
+    this.userInfo = null;
     localStorage.removeItem(this.storageKey);
   }
 }

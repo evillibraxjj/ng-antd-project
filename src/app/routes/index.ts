@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { environment } from '@env';
 
-import { PageNotFoundComponent } from '@/page-not-found/page-not-found.component';
-
 import { PassportModule } from './passport/passport.module';
 
 const appRoutes: Routes = [
@@ -13,7 +11,12 @@ const appRoutes: Routes = [
     loadChildren: () =>
       import('./admin/admin.module').then(({ AdminModule }) => AdminModule),
   },
-  { path: '**', component: PageNotFoundComponent },
+  {
+    path: 'exception',
+    loadChildren: () =>
+      import('./exception/exception.module').then((m) => m.ExceptionModule),
+  },
+  { path: '**', redirectTo: 'exception/404' },
 ];
 
 @NgModule({
@@ -24,5 +27,3 @@ const appRoutes: Routes = [
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
-
-export const APP_COMPONENTS = [PageNotFoundComponent];

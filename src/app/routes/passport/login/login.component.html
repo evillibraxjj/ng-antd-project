@@ -37,7 +37,8 @@
   </div>
   <button
     class="login-form-button login-form-margin"
-    [nzType]="'primary'"
+    nzType="primary"
+    [nzLoading]="authService.isLoading"
     nz-button
   >
     Log in
