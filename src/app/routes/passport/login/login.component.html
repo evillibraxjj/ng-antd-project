@@ -1,0 +1,45 @@
+<form
+  class="login-form"
+  [formGroup]="validateForm"
+  (ngSubmit)="submitForm()"
+  nz-form
+>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="账号不能为空">
+      <nz-input-group nzPrefixIcon="user">
+        <input
+          type="text"
+          formControlName="account"
+          placeholder="请输入账号"
+          nz-input
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="密码不能为空">
+      <nz-input-group nzPrefixIcon="lock">
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="请输入密码"
+          nz-input
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="login-form-margin" nz-row>
+    <div [nzSpan]="12" nz-col>
+      <label formControlName="remember" nz-checkbox>
+        <span>记住我</span>
+      </label>
+    </div>
+  </div>
+  <button
+    class="login-form-button login-form-margin"
+    [nzType]="'primary'"
+    nz-button
+  >
+    Log in
+  </button>
+</form>
