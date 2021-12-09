@@ -7,7 +7,7 @@ import { AppComponent } from '@/app.component';
 
 import { AppRoutingModule } from './routes';
 
-import { httpInterceptorProviders } from '@/http-interceptors';
+import { InterceptorProviders } from '@core';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import { httpInterceptorProviders } from '@/http-interceptors';
     AppRoutingModule,
   ],
   declarations: [AppComponent],
-  providers: [httpInterceptorProviders],
+  providers: [InterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {
