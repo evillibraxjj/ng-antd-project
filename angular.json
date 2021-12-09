@@ -35,7 +35,9 @@
                 "output": "/assets/"
               }
             ],
-            "styles": ["src/styles.less"],
+            "styles": [
+              "src/styles.less"
+            ],
             "scripts": [],
             "sourceMap": {
               "scripts": false,
@@ -100,13 +102,30 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "less",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.less"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.less"
+            ],
             "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
     }
   },
-  "defaultProject": "ng-project"
+  "defaultProject": "ng-project",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
