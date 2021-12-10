@@ -1,9 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, UrlTree } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 import { catchError, delay, map, tap } from 'rxjs/operators';
+
+export interface UserModel {
+  account: string;
+  password: string;
+  remember: boolean;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +27,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(data?: object): void {
+  login(data: UserModel): void {
     const { router, storageKey } = this;
     this.isLoading = true;
     of(data)

@@ -19,8 +19,8 @@
     "lib": ["es2018", "dom"],
     "paths": {
       "@env": ["src/environments/environment"],
-      "@shared": ["src/app/shared/index"],
       "@core": ["src/app/core/index"],
+      "@shared/*": ["src/app/shared/*"],
       "@service/*": ["src/app/service/*"],
       "@/*": ["src/app/*"]
     }

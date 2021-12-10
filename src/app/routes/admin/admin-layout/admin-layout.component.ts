@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { slideInAnimation } from './animations';
+import { routeAnimation } from '@shared/admin/index';
 
 @Component({
   selector: 'app-admin-layout',
   templateUrl: './admin-layout.component.html',
   styleUrls: ['./admin-layout.component.less'],
-  animations: [slideInAnimation],
+  animations: [routeAnimation],
 })
 export class AdminLayoutComponent {
   animationRoute(outlet: RouterOutlet) {

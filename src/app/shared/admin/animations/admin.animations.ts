@@ -11,7 +11,7 @@ import {
 const options = { optional: true };
 
 // Routable animations
-export const slideInAnimation = trigger('routeAnimation', [
+export const routeAnimation = trigger('routeAnimation', [
   transition('* <=> *', [
     query(
       ':enter, :leave',

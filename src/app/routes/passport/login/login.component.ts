@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavigationExtras, Router } from '@angular/router';
 
-import { AuthService } from '@service/auth.service';
+import { AuthService, UserModel } from '@service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,18 +10,15 @@ import { AuthService } from '@service/auth.service';
 })
 export class LoginComponent {
   validateForm!: FormGroup;
+  userModel: UserModel = {
+    account: '',
+    password: '',
+    remember: true,
+  };
 
-  constructor(
-    private fb: FormBuilder,
-    public authService: AuthService,
-    public router: Router
-  ) {
+  constructor(private fb: FormBuilder, public authService: AuthService) {
     this.authService.logout();
-    this.validateForm = this.fb.group({
-      account: [null, [Validators.required]],
-      password: [null, [Validators.required]],
-      remember: [true],
-    });
+    this.validateForm = this.fb.group(this.userModel);
   }
 
   submitForm(): void {
