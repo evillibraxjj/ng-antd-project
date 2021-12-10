@@ -6,6 +6,7 @@
       <li nz-menu-item>nav 2</li>
       <li nz-menu-item>nav 3</li>
     </ul>
+    <div style="float: right">登出</div>
   </nz-header>
   <nz-layout>
     <nz-sider nzWidth="200px" nzTheme="light">
@@ -46,8 +47,8 @@
           <a [routerLink]="'/'">Home</a>
         </nz-breadcrumb-item>
       </nz-breadcrumb>
-      <nz-content>
-        <router-outlet></router-outlet>
+      <nz-content [@routeAnimation]="animationRoute(outlet)">
+        <router-outlet #outlet="outlet"></router-outlet>
       </nz-content>
     </nz-layout>
   </nz-layout>

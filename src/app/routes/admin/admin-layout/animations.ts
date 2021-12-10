@@ -1,34 +1,37 @@
 import {
-  trigger, animateChild, group,
-  transition, animate, style, query
+  trigger,
+  animateChild,
+  group,
+  transition,
+  animate,
+  style,
+  query,
 } from '@angular/animations';
 
+const options = { optional: true };
 
 // Routable animations
-export const slideInAnimation =
-  trigger('routeAnimation', [
-    transition('heroes <=> hero', [
-      style({ position: 'relative' }),
-      query(':enter, :leave', [
+export const slideInAnimation = trigger('routeAnimation', [
+  transition('* <=> *', [
+    query(
+      ':enter, :leave',
+      [
         style({
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%'
-        })
-      ]),
-      query(':enter', [
-        style({ left: '-100%'})
-      ]),
-      query(':leave', animateChild()),
-      group([
-        query(':leave', [
-          animate('300ms ease-out', style({ left: '100%'}))
-        ]),
-        query(':enter', [
-          animate('300ms ease-out', style({ left: '0%'}))
-        ])
-      ]),
-      query(':enter', animateChild()),
-    ])
-  ]);
+          position: 'relative',
+        }),
+      ],
+      options
+    ),
+    query(':enter', [style({ left: '50px' })], options),
+    query(':leave', animateChild(), options),
+    group([
+      query(':leave', [style({ display: 'none' })], options),
+      query(
+        ':enter',
+        [animate('300ms ease-out', style({ left: '0px' }))],
+        options
+      ),
+    ]),
+    query(':enter', animateChild(), options),
+  ]),
+]);
