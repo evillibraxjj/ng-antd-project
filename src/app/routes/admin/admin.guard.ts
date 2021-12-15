@@ -3,10 +3,8 @@ import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  CanActivateChild,
-  CanLoad,
-  Route,
   UrlTree,
+  CanActivateChild,
 } from '@angular/router';
 
 import { AuthService } from '@service/auth.service';
@@ -15,14 +13,20 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class AdminGuard implements CanActivate {
+export class AdminGuard implements CanActivate, CanActivateChild {
   constructor(private authService: AuthService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree | Observable<boolean> {
-    return true;
-    // return this.authService.getUserInfo();
+    return this.authService.canActivate();
+  }
+
+  canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean | UrlTree {
+    return this.authService.canActivateChild(childRoute, state);
   }
 }

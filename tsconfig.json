@@ -22,6 +22,7 @@
       "@core": ["src/app/core/index"],
       "@shared/*": ["src/app/shared/*"],
       "@service/*": ["src/app/service/*"],
+      "@models/*": ["src/app/models/*"],
       "@/*": ["src/app/*"]
     }
   },

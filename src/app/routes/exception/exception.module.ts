@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ExceptionSharedModule } from '@shared/exception';
 
 import {
   ExceptionRoutingModule,
@@ -8,7 +7,7 @@ import {
 } from './exception-routing.module';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, ExceptionRoutingModule],
+  imports: [ExceptionSharedModule, ExceptionRoutingModule],
   declarations: [...EXCEPTION_COMPONENTS],
 })
 export class ExceptionModule {}

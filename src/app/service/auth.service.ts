@@ -1,55 +1,79 @@
-import { Injectable, Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 import { catchError, delay, map, tap } from 'rxjs/operators';
 
-export interface UserModel {
-  account: string;
-  password: string;
-  remember: boolean;
-}
+import { UserLoginModel, UserInfoModel } from '@models/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly storageKey: string = 'token';
+  private readonly storageTokenKey: string = 'token';
+  private readonly storageUserInfoKey: string = 'userinfo';
   public readonly loginUrl: string = '/login';
 
   public isLoading: boolean = false;
-  public userInfo: object | null = null;
 
   get token() {
-    return localStorage.getItem(this.storageKey);
+    return localStorage.getItem(this.storageTokenKey);
+  }
+  get userInfo() {
+    const userInfo = localStorage.getItem(this.storageUserInfoKey);
+    if (userInfo) return JSON.parse(userInfo) as UserInfoModel;
+    return null;
   }
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(data: UserModel): void {
-    const { router, storageKey } = this;
+  login(data: UserLoginModel): void {
+    const { router, storageTokenKey } = this;
     this.isLoading = true;
     of(data)
       .pipe(delay(1000))
       .subscribe(() => {
-        this.isLoading = false;
-        localStorage.setItem(storageKey, new Date().getTime().toString());
+        localStorage.setItem(storageTokenKey, new Date().getTime().toString());
         router.navigate(['/']);
       });
   }
 
-  getUserInfo(): UrlTree | Observable<boolean> {
-    const { token, router, loginUrl, http } = this;
-    if (!token) return router.parseUrl(loginUrl);
-    return http.get<boolean | UrlTree>('/users/evillibraxjj').pipe(
-      map((e: any) => !!(this.userInfo = e)),
+  logout(): void {
+    localStorage.clear();
+    this.router.navigate([this.loginUrl]);
+  }
+
+  getUserInfo(): Observable<boolean | UserInfoModel> {
+    const { router, loginUrl, storageUserInfoKey } = this;
+    return this.http.get<UserInfoModel>('/users/evillibraxjj').pipe(
+      tap((e: UserInfoModel) =>
+        localStorage.setItem(storageUserInfoKey, JSON.stringify(e))
+      ),
       catchError(() => router.navigate([loginUrl]))
     );
   }
-  logout(): void {
-    this.isLoading = false;
-    this.userInfo = null;
-    localStorage.removeItem(this.storageKey);
+
+  canActivate(): boolean | UrlTree | Observable<boolean> {
+    const { token, userInfo, router, loginUrl } = this;
+    if (!token) return router.parseUrl(loginUrl);
+    if (userInfo) return true;
+    return this.getUserInfo().pipe(map((e) => true));
+  }
+
+  canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean | UrlTree {
+    const { token, userInfo, router, loginUrl } = this;
+    if (!token || !userInfo) return router.parseUrl(loginUrl);
+    const { type } = userInfo;
+    if (childRoute.data.type.includes(type)) return true;
+    return router.parseUrl('403');
   }
 }

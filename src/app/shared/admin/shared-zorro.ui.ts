@@ -22,6 +22,8 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 export const SHARED_ZORRO_MODULES = [
   NzFormModule,
@@ -48,4 +50,6 @@ export const SHARED_ZORRO_MODULES = [
   NzLayoutModule,
   NzIconModule,
   NzNotificationModule,
+  NzPageHeaderModule,
+  NzDescriptionsModule,
 ];

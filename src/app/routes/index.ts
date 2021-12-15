@@ -16,6 +16,7 @@ const appRoutes: Routes = [
     loadChildren: () =>
       import('./exception/exception.module').then((m) => m.ExceptionModule),
   },
+  { path: '403', redirectTo: 'exception/403' },
   { path: '**', redirectTo: 'exception/404' },
 ];
 

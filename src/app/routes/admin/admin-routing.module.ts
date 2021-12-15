@@ -13,6 +13,7 @@ const adminRoutes: Routes = [
     path: '',
     component: AdminLayoutComponent,
     canActivate: [AdminGuard],
+    canActivateChild: [AdminGuard],
     children: [
       {
         path: '',
@@ -24,6 +25,7 @@ const adminRoutes: Routes = [
         component: AdminDashboardComponent,
         data: {
           breadcrumb: 'Dashboard',
+          type: ['User', 'Admin'],
         },
       },
       {
@@ -31,6 +33,7 @@ const adminRoutes: Routes = [
         component: ManageCrisesComponent,
         data: {
           breadcrumb: 'Crises',
+          type: ['User', 'Admin'],
         },
       },
       {
@@ -38,6 +41,7 @@ const adminRoutes: Routes = [
         component: ManageHeroesComponent,
         data: {
           breadcrumb: 'Heroes',
+          type: ['User', 'Admin'],
         },
       },
     ],
@@ -51,7 +55,6 @@ const adminRoutes: Routes = [
 export class AdminRoutingModule {}
 
 export const ADMIN_COMPONENTS = [
-  AdminLayoutComponent,
   ManageCrisesComponent,
   ManageHeroesComponent,
   AdminDashboardComponent,

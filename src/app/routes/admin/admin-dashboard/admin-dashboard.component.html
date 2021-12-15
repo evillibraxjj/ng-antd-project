@@ -1,2 +1,6 @@
-<h3>Dashboard</h3>
+<nz-page-header
+  nzTitle="Title"
+  nzSubtitle="This is a subtitle"
+></nz-page-header>
 <p>The hero's birthday is {{ birthday | date: "yyyy-MM-dd" }}</p>
+<p (click)="setStr()">string:{{ testService.testString }}</p>
