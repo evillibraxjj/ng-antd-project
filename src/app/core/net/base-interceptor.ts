@@ -21,7 +21,7 @@ export class BaseInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const authReq = req.clone({
-      url: `${baseurl}${req.url}`,
+      url: req.url.includes('//') ? req.url : `${baseurl}${req.url}`,
       setHeaders: { Authorization: 'authToken' },
     });
     const { handleNext, handleError } = this;

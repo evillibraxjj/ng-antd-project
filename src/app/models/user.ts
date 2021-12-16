@@ -38,3 +38,18 @@ export interface UserInfoModel {
   updated_at: string;
   url: string;
 }
+
+export interface FiltersUserModel {
+  name: '';
+  sex: '';
+}
+
+export interface RandomUserModel {
+  gender: string;
+  email: string;
+  name: {
+    title: string;
+    first: string;
+    last: string;
+  };
+}

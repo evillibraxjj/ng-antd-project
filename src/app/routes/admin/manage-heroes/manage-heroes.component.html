@@ -1,6 +1,37 @@
-<nz-page-header
-  nzTitle="Title"
-  nzSubtitle="This is a subtitle"
-></nz-page-header>
-<p>Manage your heroes here</p>
-<p>string:{{ testService.testString }}</p>
+<app-page-table [load]="load" #table>
+  <ng-container ngProjectAs="form">
+    <form
+      nz-form
+      [nzLayout]="'inline'"
+      [formGroup]="filtersForm"
+      (ngSubmit)="table.onRefresh()"
+    >
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your username!">
+          <nz-input-group nzPrefixIcon="user">
+            <input placeholder="Username" formControlName="name" nz-input />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nzType="primary" nz-button>查询</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+  <ng-container ngProjectAs="thead">
+    <tr>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>Email</th>
+    </tr>
+  </ng-container>
+  <ng-container ngProjectAs="[tbody]">
+    <tr *ngFor="let data of table.data">
+      <td>{{ data.name.first }} {{ data.name.last }}</td>
+      <td>{{ data.gender }}</td>
+      <td>{{ data.email }}</td>
+    </tr>
+  </ng-container>
+</app-page-table>

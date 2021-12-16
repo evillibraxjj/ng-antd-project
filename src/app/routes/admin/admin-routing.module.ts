@@ -54,7 +54,7 @@ const adminRoutes: Routes = [
 })
 export class AdminRoutingModule {}
 
-export const ADMIN_COMPONENTS = [
+export const ROUTIN_COMPONENTS = [
   ManageCrisesComponent,
   ManageHeroesComponent,
   AdminDashboardComponent,

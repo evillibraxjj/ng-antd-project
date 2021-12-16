@@ -11,8 +11,8 @@ import { AuthService } from '@service/auth.service';
   providers: [AuthService],
 })
 export class LoginComponent {
-  validateForm!: FormGroup;
-  userModel: UserLoginModel = {
+  loginForm!: FormGroup;
+  loginUser: UserLoginModel = {
     account: '',
     password: '',
     remember: true,
@@ -24,11 +24,11 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder, public authService: AuthService) {
     this.authService.logout();
-    this.validateForm = this.fb.group(this.userModel);
+    this.loginForm = this.fb.group(this.loginUser);
   }
 
   submitForm(): void {
-    const { valid, value, controls } = this.validateForm;
+    const { valid, value, controls } = this.loginForm;
     if (valid) return this.authService.login(value);
     Object.values(controls).forEach((control) => {
       if (!control.invalid) return;
