@@ -3,6 +3,18 @@ import { Component, Input } from '@angular/core';
 
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
+interface PageInfoModel {
+  page: number;
+  results: number;
+  seed: string;
+  version: string;
+}
+
+interface TablePageModel {
+  info: PageInfoModel;
+  results: any[];
+}
+
 @Component({
   selector: 'app-page-table',
   template: `
@@ -55,7 +67,10 @@ export class PageTableComponent {
       .append('page', `${pageIndex}`)
       .append('results', `${pageSize}`);
     this.load(params).subscribe(
-      (data: any) => (this.data = data.results),
+      (data: TablePageModel) => {
+        this.pageIndex = data.info.page;
+        this.data = data.results;
+      },
       () => (this.data = []),
       () => (this.loading = false)
     );
