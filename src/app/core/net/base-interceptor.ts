@@ -35,7 +35,6 @@ export class BaseInterceptor implements HttpInterceptor {
     throw throwError('错误日志');
   }
   private handleError(error: HttpErrorResponse) {
-    console.info('tab.error', error);
-    return error;
+    throw throwError(error);
   }
 }

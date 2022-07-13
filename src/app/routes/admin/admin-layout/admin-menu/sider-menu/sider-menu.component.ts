@@ -26,17 +26,9 @@ export class SiderMenuComponent {
       children: [
         {
           level: 2,
-          title: '邮件管理',
-          icon: 'bars',
-          open: false,
-          children: [
-            {
-              level: 3,
-              title: '邮件列表',
-              icon: 'mail',
-              router: ['heroes'],
-            },
-          ],
+          title: '邮件列表',
+          icon: 'mail',
+          router: ['heroes'],
         },
         {
           level: 2,

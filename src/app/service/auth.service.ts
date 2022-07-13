@@ -19,6 +19,7 @@ export class AuthService {
   private readonly storageTokenKey: string = 'token';
   private readonly storageUserInfoKey: string = 'userinfo';
   public readonly loginUrl: string = '/login';
+  public readonly logoutUrl: string = '/logout';
 
   public isLoading: boolean = false;
 
@@ -38,10 +39,18 @@ export class AuthService {
     this.isLoading = true;
     of(data)
       .pipe(delay(1000))
-      .subscribe(() => {
-        localStorage.setItem(storageTokenKey, new Date().getTime().toString());
-        router.navigate(['/']);
-      });
+      .subscribe(
+        () => {
+          localStorage.setItem(
+            storageTokenKey,
+            new Date().getTime().toString()
+          );
+          router.navigate(['/']);
+        },
+        () => {
+          this.isLoading = false;
+        }
+      );
   }
 
   logout(): void {
@@ -50,18 +59,18 @@ export class AuthService {
   }
 
   getUserInfo(): Observable<boolean | UserInfoModel> {
-    const { router, loginUrl, storageUserInfoKey } = this;
+    const { router, logoutUrl, storageUserInfoKey } = this;
     return this.http.get<UserInfoModel>('/users/evillibraxjj').pipe(
       tap((e: UserInfoModel) =>
         localStorage.setItem(storageUserInfoKey, JSON.stringify(e))
       ),
-      catchError(() => router.navigate([loginUrl]))
+      catchError(() => router.navigate([logoutUrl]))
     );
   }
 
   canActivate(): boolean | UrlTree | Observable<boolean> {
-    const { token, userInfo, router, loginUrl } = this;
-    if (!token) return router.parseUrl(loginUrl);
+    const { token, userInfo, router, logoutUrl } = this;
+    if (!token) return router.parseUrl(logoutUrl);
     if (userInfo) return true;
     return this.getUserInfo().pipe(map((e) => true));
   }
@@ -70,8 +79,8 @@ export class AuthService {
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree {
-    const { token, userInfo, router, loginUrl } = this;
-    if (!token || !userInfo) return router.parseUrl(loginUrl);
+    const { token, userInfo, router, logoutUrl } = this;
+    if (!token || !userInfo) return router.parseUrl(logoutUrl);
     const { type } = userInfo;
     if (childRoute.data.type.includes(type)) return true;
     return router.parseUrl('403');
